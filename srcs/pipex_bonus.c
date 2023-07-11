@@ -6,7 +6,7 @@
 /*   By: dkeraudr <dkeraudr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:36:31 by dkeraudr          #+#    #+#             */
-/*   Updated: 2023/07/10 19:38:27 by dkeraudr         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:06:07 by dkeraudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ int	ft_infile(t_pipex *pipex, int fd[2], char **argv)
 {
 	int		fd_in;
 
-	if (pipex->here_doc)
-	{
-		if (!ft_here_doc(pipex, fd))
-			return (0);
-	}
 	fd_in = open(pipex->file_in, O_RDONLY);
 	if (fd_in == -1)
 	{
@@ -87,6 +82,11 @@ int	ft_pipex(t_pipex *pipex)
 	pipex->pipes = pipes;
 	if (!pipes)
 		return (ft_error("malloc failed"));
+	if (pipex->here_doc)
+	{
+		if (!ft_here_doc(pipex, pipes[0]))
+			return (0);
+	}
 	while (pipex->cmd[i])
 	{
 		pid = fork();

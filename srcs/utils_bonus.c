@@ -6,7 +6,7 @@
 /*   By: dkeraudr <dkeraudr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 21:23:53 by dkeraudr          #+#    #+#             */
-/*   Updated: 2023/07/10 19:37:18 by dkeraudr         ###   ########.fr       */
+/*   Updated: 2023/07/11 20:41:00 by dkeraudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_here_doc(t_pipex *pipex, int fd[2])
 	{
 		ft_putstr_fd("pipe heredoc> ", 1);
 		line = get_next_line(0);
-		if (ft_strncmp(line, pipex->limiter, ft_strlen(line)) == 0)
+		if (!line || ft_strncmp(line, pipex->limiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			return (1);

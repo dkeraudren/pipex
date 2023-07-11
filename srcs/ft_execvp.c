@@ -6,7 +6,7 @@
 /*   By: dkeraudr <dkeraudr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 17:35:24 by dkeraudr          #+#    #+#             */
-/*   Updated: 2023/06/26 21:51:20 by dkeraudr         ###   ########.fr       */
+/*   Updated: 2023/07/11 20:39:23 by dkeraudr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*parse_path(char **splited_path, char *exe)
 		potential_exe_dir = ft_strjoin(splited_path[i], "/");
 		potential_exe_path = ft_strjoin(potential_exe_dir, exe);
 		free(potential_exe_dir);
-		if (access(potential_exe_path, F_OK) == 0)
+		if (access(potential_exe_path, X_OK) == 0)
 		{
 			ft_free_char_array(splited_path);
 			return (potential_exe_path);
@@ -61,15 +61,17 @@ int	ft_execvp(char *exe, char **argv, char **env)
 	int		i;
 	int		ret;
 
+	exe_path = NULL;
 	i = 0;
-	while (exe[i])
+	while (exe && exe[i])
 	{
 		if (exe[i] == '/')
 			return (execve(exe, argv, env));
 		i++;
 	}
-	exe_path = find_exe_path(exe, env);
-	if (!exe_path)
+	if (exe)
+		exe_path = find_exe_path(exe, env);
+	if (!exe || !exe_path)
 	{
 		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putstr_fd(exe, 2);
